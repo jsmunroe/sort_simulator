@@ -3,6 +3,7 @@ import InsertionSort from "./InsertionSort";
 import MergeSort from "./MergeSort";
 import SelectionSort from "./SelectionSort";
 import QuickSort from "./QuickSort";
+import HeapSort from "./HeapSort";
 
 const Algorithms = {
     BubbleSort: new BubbleSort(),
@@ -10,6 +11,7 @@ const Algorithms = {
     InsertionSort: new InsertionSort(),
     MergeSort: new MergeSort(),
     QuickSort: new QuickSort(),
+    HeapSort: new HeapSort(),
 }
 
 export default Algorithms;

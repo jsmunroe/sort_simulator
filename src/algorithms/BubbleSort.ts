@@ -22,6 +22,10 @@ export default class BubbleSort implements ISortAlgorithm {
     step(state: BubbleSortState): BubbleSortState {
         let { array, currentIndex, hasChanged, isComplete } = state;
 
+        if (isComplete) {
+            return state;
+        }
+
         if (array[currentIndex] > array[currentIndex + 1]) {
             const current = array[currentIndex];
             const next = array[currentIndex + 1];

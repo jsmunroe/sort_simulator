@@ -20,6 +20,10 @@ export default class SelectionSort implements ISortAlgorithm {
     step(state: SelectionSortState): SelectionSortState {
         let { array, currentIndex, isComplete } = state;
 
+        if (isComplete) {
+            return state;
+        }
+
         // Scan unsorted part of the array to find an element smaller than the current element
         let unsortedMinimumIndex = currentIndex;
         for (let i = currentIndex + 1; i < array.length; i++) {

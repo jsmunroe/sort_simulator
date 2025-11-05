@@ -24,6 +24,10 @@ export default class MergeSort implements ISortAlgorithm {
     step(state: MergeSortState): MergeSortState {
         let { array, isComplete, mergeTree } = state;
 
+        if (isComplete) {
+            return state;
+        }
+
         const mergeSet = this.findNextMergeSet(state.mergeTree);
 
         if (mergeSet === null) {

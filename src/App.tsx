@@ -6,7 +6,7 @@ import { random } from './utils/generators';
 import './App.css'
 
 function App() {
-	const [state, step] =  useAlgorithm(Algorithms.QuickSort, random(100));
+	const [state, step] =  useAlgorithm(Algorithms.HeapSort, random(100));
 
 	useEffect(() => {
 		setTimeout(() => step(), 10);
