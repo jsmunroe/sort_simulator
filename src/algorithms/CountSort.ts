@@ -4,21 +4,18 @@ import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 type CountSortState = SortState & {
     array: number[];
     isComplete: boolean;
-    
-    currentIndex: number;
 }
 
 export default class CountSort implements ISortAlgorithm {
     createState(array: number[]): CountSortState {
         return {
             array: [...array],
-            currentIndex: 0,
             isComplete: false,
         }
     }
 
     step(state: CountSortState): CountSortState {
-        let { array, currentIndex, isComplete } = state;
+        let { array, isComplete } = state;
 
         if (isComplete) {
             return state;
@@ -27,13 +24,20 @@ export default class CountSort implements ISortAlgorithm {
         array = this.countSort(array);
         isComplete = true;
         
-        return {...state, array, currentIndex, isComplete};
+        return {...state, array, isComplete};
     }
 
     private countSort(array: number[]): number[] {
+        if (array.some(value => value < 0)) {
+            throw new Error("CountSort only supports non-negative integers.");
+        }
+        
         const maximum = Math.max(...array);
         const count = new Array(maximum + 1).fill(0);
 
+        for (let value of array) {
+            count[value]++;
+        }
         for (let value of array) {
             count[value]++;
         }

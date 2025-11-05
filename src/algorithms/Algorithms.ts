@@ -5,6 +5,7 @@ import SelectionSort from "./SelectionSort";
 import QuickSort from "./QuickSort";
 import HeapSort from "./HeapSort";
 import CountSort from "./CountSort";
+import BucketSort from "./BucketSort";
 
 const Algorithms = {
     BubbleSort: new BubbleSort(),
@@ -14,6 +15,7 @@ const Algorithms = {
     QuickSort: new QuickSort(),
     HeapSort: new HeapSort(),
     CountSort: new CountSort(),
+    BucketSort: new BucketSort(),
 }
 
 export default Algorithms;
