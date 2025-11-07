@@ -42,6 +42,10 @@ function App() {
 		step();
 	}
 
+    const handlePauseClick = () => {
+        setSpeed(0);
+    }
+
     const handleReplayClick = () => {
         reset();
     }
@@ -67,7 +71,10 @@ function App() {
                 </div>
 
                 <div className="buttons">
-                    {speed <= 0 && <button type="button" onClick={handleStepClick}>Step</button>}
+                    {speed <= 0 
+                        ? <button type="button" onClick={handleStepClick}>Step</button>
+                        : <button type="button" onClick={handlePauseClick}>Pause</button>
+                    }
                     <button type="button" onClick={handleReplayClick}>Replay</button>
                 </div>
 			</form>
