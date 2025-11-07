@@ -1,6 +1,7 @@
 import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 import QuickSet from "../models/QuickSet";
+import { compare } from "../utils/arrays";
 
 type QuickSortState = SortState & {
     array: number[];
@@ -10,6 +11,8 @@ type QuickSortState = SortState & {
 }
 
 export default class QuickSort implements ISortAlgorithm {
+    readonly name = 'Quick Sort';
+    
     createState(array: number[]): QuickSortState {
         return {
             array: [...array],
@@ -25,9 +28,13 @@ export default class QuickSort implements ISortAlgorithm {
             return state;
         }
 
-        if (quickSet.step()) {
-            isComplete = true;
-        }
+        do {
+            if (quickSet.step()) {
+                isComplete = true;
+                break;
+            }
+
+        } while (compare(quickSet.array, array));
 
         array = [...quickSet.array];
 

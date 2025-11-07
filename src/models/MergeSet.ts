@@ -3,7 +3,7 @@ export default class MergeSet {
     readonly length: number;
     private _array: number[];
 
-    get array(): readonly number[] {
+    get array(): number[] {
         return [...this._array];
     }
 
@@ -88,7 +88,14 @@ export default class MergeSet {
         return nodes;
     }
 
-    private getLayeredNodes(node: MergeSet, layers: MergeSet[][], depth: number) {
+    toJSON() {
+        return { 
+            ...this,
+            parent: null,
+        };
+    }
+
+    getLayeredNodes(node: MergeSet, layers: MergeSet[][], depth: number) {
         if (layers.length <= depth) {
             layers.push([]);
         }
@@ -114,3 +121,4 @@ export default class MergeSet {
         child.parent?.integrateMergedChild(this);
     }
 }
+

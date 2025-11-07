@@ -1,3 +1,5 @@
+import { swapInPlace } from "../utils/arrays";
+
 export default class QuickSet {
     array: number[];
     low: number;
@@ -31,29 +33,24 @@ export default class QuickSet {
         if (this.j < this.high) {
             if (this.array[this.j] < this.pivot) {
                 this.i++;
-                [this.array[this.i], this.array[this.j]] = [this.array[this.j], this.array[this.i]];
+                swapInPlace(this.array, this.i, this.j);
             }
             this.j++;
 
             return false;
         }
 
-        
         if (this.j === this.high) {
-            [this.array[this.i + 1], this.array[this.high]] = [this.array[this.high], this.array[this.i + 1]];
+            swapInPlace(this.array, this.i + 1, this.high);
             
-            console.log(`${this.low}-${this.high}: Partitioning complete at index ${this.i + 1}`)
-
             const pi = this.i + 1;
             
             this.left = new QuickSet(this.array, this.low, pi - 1);
             this.right = new QuickSet(this.array, pi + 1, this.high);
 
-            console.log(`${this.low}-${this.high}: Left (${this.left.low}-${this.left.high}) and Right (${this.right.low}-${this.right.high}) created.`);
-
             this.j++;
         }
-
+        
         if (this.left && !this.left.isPartitioned) {
             this.left.step();
             return false;
@@ -63,8 +60,6 @@ export default class QuickSet {
             this.right.step();
             return false;
         }
-
-        console.log(`${this.low}-${this.high}: Descendent partitions complete.`);
 
         this.isPartitioned = true;
 

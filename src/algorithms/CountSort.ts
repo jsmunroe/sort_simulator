@@ -7,6 +7,8 @@ type CountSortState = SortState & {
 }
 
 export default class CountSort implements ISortAlgorithm {
+    readonly name = 'Count Sort';
+
     createState(array: number[]): CountSortState {
         return {
             array: [...array],
@@ -31,13 +33,10 @@ export default class CountSort implements ISortAlgorithm {
         if (array.some(value => value < 0)) {
             throw new Error("CountSort only supports non-negative integers.");
         }
-        
+
         const maximum = Math.max(...array);
         const count = new Array(maximum + 1).fill(0);
 
-        for (let value of array) {
-            count[value]++;
-        }
         for (let value of array) {
             count[value]++;
         }

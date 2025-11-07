@@ -1,5 +1,6 @@
 import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
+import { swap } from "../utils/arrays";
 
 type SelectionSortState = SortState & {
     array: number[];
@@ -9,6 +10,8 @@ type SelectionSortState = SortState & {
 }
 
 export default class SelectionSort implements ISortAlgorithm {
+    readonly name = 'Selection Sort';
+    
     createState(array: number[]): SelectionSortState {
         return {
             array: [...array],
@@ -24,6 +27,10 @@ export default class SelectionSort implements ISortAlgorithm {
             return state;
         }
 
+        if (currentIndex >= array.length - 1) {
+            isComplete = true;
+        }
+
         // Scan unsorted part of the array to find an element smaller than the current element
         let unsortedMinimumIndex = currentIndex;
         for (let i = currentIndex + 1; i < array.length; i++) {
@@ -32,25 +39,18 @@ export default class SelectionSort implements ISortAlgorithm {
             }
         }
 
+        if (unsortedMinimumIndex === currentIndex) {
+            // No smaller element found, move to next index
+            currentIndex++;
+            return this.step({...state, currentIndex, isComplete} );
+        }
+
         // If found swap with the current element.
         if (unsortedMinimumIndex !== -1) {
-            const current = array[currentIndex];
-            const unsortedMinimum = array[unsortedMinimumIndex];
-
-            array = array.map((item, index) => {
-                if (index === currentIndex) return unsortedMinimum;
-
-                if (index === unsortedMinimumIndex) return current;
-
-                return item;
-            });
+            array = swap(array, currentIndex, unsortedMinimumIndex);
         }
 
         currentIndex++;
-
-        if (currentIndex >= array.length - 1) {
-            isComplete = true;
-        }
         
         return {...state, array, currentIndex, isComplete};
     }

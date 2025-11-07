@@ -9,6 +9,8 @@ type InsertionSortState = SortState & {
 }
 
 export default class InsertionSort implements ISortAlgorithm {
+    readonly name = 'Insertion Sort';
+    
     createState(array: number[]): InsertionSortState {
         return {
             array: [...array],
@@ -37,13 +39,13 @@ export default class InsertionSort implements ISortAlgorithm {
 
                 if (index > i + 1 && index <= currentIndex) return array[index - 1];
 
-                return item;
-            });
+                    return item;
+                });
         }
-
+                            
         if (currentIndex < array.length - 1) {
-            currentIndex++;
-        }
+                currentIndex++;
+            }
         else {
             isComplete = true;
         }

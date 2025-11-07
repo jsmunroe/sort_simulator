@@ -1,6 +1,7 @@
 import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 import MergeSet from "../models/MergeSet";
+import { compare } from "../utils/arrays";
 
 type MergeSortState = SortState & {
     array: number[];
@@ -10,6 +11,8 @@ type MergeSortState = SortState & {
 }
 
 export default class MergeSort implements ISortAlgorithm {
+    readonly name = 'Merge Sort';
+
     createState(array: number[]): MergeSortState {
         const mergeTree = new MergeSet(array, 0, array.length);
 
@@ -32,10 +35,14 @@ export default class MergeSort implements ISortAlgorithm {
 
         if (mergeSet === null) {
             isComplete = true;
-            return state;
+            return { ...state, isComplete: true };
         }
         
         mergeSet.merge();
+
+        if (compare(mergeTree.array, array)) {
+            return this.step({...state, mergeTree});
+        }
 
         array = [...mergeTree.array];
 
@@ -43,18 +50,9 @@ export default class MergeSort implements ISortAlgorithm {
     }
 
     private findNextMergeSet(node: MergeSet): MergeSet | null {
-        if (node.isMerged)  {
-            return null;
-        }
+        const nodes = node.getNodeArray();
+        const next = nodes.find(n => !n.isMerged);
 
-        if (node.left && !node.left.isMerged) {
-            return this.findNextMergeSet(node.left);
-        }
-
-        if (node.right && !node.right.isMerged) {
-            return this.findNextMergeSet(node.right);
-        }
-
-        return node; // left and right are merged, but this node is not.
+        return next ? next : null;
     }
 }

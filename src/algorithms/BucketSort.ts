@@ -9,6 +9,8 @@ type BucketSortState = SortState & {
 }
 
 export default class BucketSort implements ISortAlgorithm {
+    readonly name = 'Bucket Sort';
+
     createState(array: number[]): BucketSortState {
         return {
             array: [...array],
