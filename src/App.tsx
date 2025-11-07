@@ -9,7 +9,7 @@ import './App.css'
 function App() {
 	const [algorithms] = useState(Algorithms.all());
 	const [algorithm, setAlgorithm] = useState<ISortAlgorithm>(Algorithms.BubbleSort);
-	const { state, step, reset } =  useAlgorithm(algorithm, random(100));
+	const { state, next, previous, reset } =  useAlgorithm(algorithm, random(100));
 
 	const [speed, setSpeed] = useState(99.5); // 99.5 gives a delay of 10ms between frames.
 
@@ -20,7 +20,7 @@ function App() {
         
 		const delay = Math.floor(1000 * (1 - Math.pow(speed / 100, 0.25))); // Ease out speed curve
 
-		setTimeout(() => step(), delay);
+		setTimeout(() => next(), delay);
 	}, [state, algorithm]);
 
 	const handleAlgorithmChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,13 +34,17 @@ function App() {
 		setSpeed(newSpeed);
 
         if (speed === 0 && newSpeed > 0) {
-            step();
+            next();
         }
 	}
 
-	const handleStepClick = () => {
-		step();
+	const handleNextClick = () => {
+		next();
 	}
+
+    const handlePreviousClick = () => {
+        previous();
+    }
 
     const handlePauseClick = () => {
         setSpeed(0);
@@ -72,7 +76,10 @@ function App() {
 
                 <div className="buttons">
                     {speed <= 0 
-                        ? <button type="button" onClick={handleStepClick}>Step</button>
+                        ? <>
+                            <button type="button" onClick={handlePreviousClick}>Previous</button>
+                            <button type="button" onClick={handleNextClick}>Next</button>
+                        </>
                         : <button type="button" onClick={handlePauseClick}>Pause</button>
                     }
                     <button type="button" onClick={handleReplayClick}>Replay</button>
