@@ -37,7 +37,7 @@ export default class BubbleSort implements ISortAlgorithm {
                     return {...state, isComplete};
                 }
 
-                currentIndex = 0;
+                currentIndex = -1;
                 hasChanged = false;
                 break;
             }
@@ -54,9 +54,6 @@ export default class BubbleSort implements ISortAlgorithm {
                 break;
             }
         }
-
-        currentIndex++;
-
 
         return {...state, array, currentIndex, hasChanged, isComplete};
     }

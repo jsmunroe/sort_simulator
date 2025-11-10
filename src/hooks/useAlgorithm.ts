@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import type ISortAlgorithm from '../contracts/ISortAlgorithm';
 import type { SortState } from '../contracts/ISortAlgorithm';
 import {useStateHistory} from '.';
+import type { IGenerator } from '../utils/generators';
 
-export default function useAlgorithm(algorithm: ISortAlgorithm, array: number[]) {
-    const [state, setState] = useState(() => algorithm.createState(array));
+export default function useAlgorithm(algorithm: ISortAlgorithm, gen: IGenerator) {
+    const [generator, setGenerator] = useState<IGenerator>(() => gen);
+    const [state, setState] = useState(() => algorithm.createState(generator()));
     const stateHistory = useStateHistory();
 
     const getStateHistoryList = () => stateHistory.list.slice(0, stateHistory.currentIndex + 1);
 
     useEffect(() => {
-        const newState = algorithm.createState(array);
+        const newState = algorithm.createState(generator());
         setState(newState);
 
         stateHistory.clear();
@@ -72,7 +74,7 @@ export default function useAlgorithm(algorithm: ISortAlgorithm, array: number[])
     }
 
     const reset = () => {
-        const newState = algorithm.createState(array);
+        const newState = algorithm.createState(generator());
         setState(newState);
         stateHistory.clear();
         stateHistory.push(newState);
@@ -84,6 +86,7 @@ export default function useAlgorithm(algorithm: ISortAlgorithm, array: number[])
         get stateHistory() { return getStateHistoryList(); },
         next, 
         previous, 
-        reset 
+        reset,
+        setGenerator,
     } as const;
 }

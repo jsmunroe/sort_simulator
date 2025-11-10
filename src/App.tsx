@@ -4,13 +4,13 @@ import ArrayViewer from './components/ArrayViewer';
 import { useAlgorithm } from './hooks';
 import { random } from './utils/generators';
 import type ISortAlgorithm from './contracts/ISortAlgorithm';
-import './App.css'
 import HistoryViewer from './components/HistoryViewer';
+import './App.css'
 
 function App() {
 	const [algorithms] = useState(Algorithms.all());
 	const [algorithm, setAlgorithm] = useState<ISortAlgorithm>(Algorithms.BubbleSort);
-	const { state, next, previous, reset, stateHistory } =  useAlgorithm(algorithm, random(100));
+	const { state, next, previous, reset, setGenerator, stateHistory } =  useAlgorithm(algorithm, random(100));
 
 	const [speed, setSpeed] = useState(99.5); // 99.5 gives a delay of 10ms between frames.
 
@@ -43,6 +43,16 @@ function App() {
         }
 	}
 
+	const handleElementsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const newElements = parseInt(event.target.value, 10);
+		
+        setGenerator(() => random(newElements));
+	}
+
+    const handleElementsBlur = () => {
+        reset();
+    }
+
 	const handleNextClick = () => {
 		next();
 	}
@@ -57,7 +67,6 @@ function App() {
 
     const handleReplayClick = () => {
         reset();
-        setViewerTab('array');
     }
 
 	return (
@@ -82,6 +91,11 @@ function App() {
                     <div>
                         <label htmlFor="speed">Speed</label>
                         <input type="range" id="speed" name="speed" min="0" max="100" value={speed} onChange={handleSpeedChange} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="elements">Elements</label>
+                        <input type="number" id="elements" name="elements" min="5" max="500" defaultValue={100} onChange={handleElementsChange} onBlur={handleElementsBlur} />
                     </div>
                 </div>
 
