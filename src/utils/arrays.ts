@@ -36,7 +36,7 @@ export function swapInPlace<TItem>(array: TItem[], indexA: number, indexB: numbe
     [array[indexA], array[indexB]] = [array[indexB], array[indexA]];
 }
 
-export function compare(a: number[], b: number[]): boolean {
+export function areEqual(a: number[], b: number[]): boolean {
     if (a.length !== b.length) {
         return false;
     }

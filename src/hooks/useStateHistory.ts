@@ -1,18 +1,26 @@
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
+import type { SortState } from "../contracts/ISortAlgorithm";
+import { areEqual } from "../utils/arrays";
 
-export default function useList<TItem>() {
-    const listRef = useRef<TItem[]>([]);
+export default function useStateHistory() {
+    const listRef = useRef<SortState[]>([]);
     const currentIndexRef = useRef<number>(-1);
 
     const getCurrent = () => listRef.current[currentIndexRef.current] ?? null;
     
     const getIsAtEnd = () => currentIndexRef.current >= listRef.current.length - 1;
 
-    const push = (item: TItem) => {
+    const push = (item: SortState) => {
+        const current = getCurrent();
+        if (current && areEqual(item.array, current?.array)) {
+            return;
+        }
+
         listRef.current.push(item);
+        currentIndexRef.current = listRef.current.length - 1;
     }
 
-    const pop = (): TItem | null => {
+    const pop = (): SortState | null => {
         return listRef.current.pop() ?? null;
     }
 

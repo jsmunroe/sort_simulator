@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { getStyles } from "../utils/styles";
+import { useEffect, useRef, useState } from "react";
+import { getStylesForClass } from "../utils/styles";
 import type { SortState } from "../contracts/ISortAlgorithm";
 
 type ArrayViewerProps = {
@@ -8,6 +8,8 @@ type ArrayViewerProps = {
 
 export default function ArrayViewer({ state }: ArrayViewerProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    const [barStyles] = useState(() => getStylesForClass('bar'));
 
     useEffect(() => {
         const ctx = canvasRef.current?.getContext("2d");
@@ -19,17 +21,17 @@ export default function ArrayViewer({ state }: ArrayViewerProps) {
 
         const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-        const barStyle = getStyles('.bar');
-        const fillStyle = barStyle.backgroundColor ?? (isDarkMode ? '#ffffff' : '#000000');
+        const fillStyle = barStyles.backgroundColor ?? (isDarkMode ? '#ffffff' : '#000000');
 
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         const barWidth = ctx.canvas.width / array.length
         const maxValue = Math.max(...array);
-        array.forEach((value, index) => {
+        for (let index = 0; index < array.length; index++) {
+            const value = array[index];
             const barHeight = (value / maxValue) * ctx.canvas.height;
             ctx.fillStyle = currentIndex === index ? 'lime' : fillStyle;
             ctx.fillRect(index * barWidth + 1, ctx.canvas.height - barHeight, barWidth - 2, barHeight);
-        });
+        };
 
     }, [state]);
 

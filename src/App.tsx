@@ -5,13 +5,16 @@ import { useAlgorithm } from './hooks';
 import { random } from './utils/generators';
 import type ISortAlgorithm from './contracts/ISortAlgorithm';
 import './App.css'
+import HistoryViewer from './components/HistoryViewer';
 
 function App() {
 	const [algorithms] = useState(Algorithms.all());
 	const [algorithm, setAlgorithm] = useState<ISortAlgorithm>(Algorithms.BubbleSort);
-	const { state, next, previous, reset } =  useAlgorithm(algorithm, random(100));
+	const { state, next, previous, reset, stateHistory } =  useAlgorithm(algorithm, random(100));
 
 	const [speed, setSpeed] = useState(99.5); // 99.5 gives a delay of 10ms between frames.
+
+    const [viewerTab, setViewerTab] = useState<'array' | 'history'>('array');
 
 	useEffect(() => {
         if (speed <= 0) {
@@ -27,6 +30,8 @@ function App() {
 		const index = parseInt(event.target.value, 10);
 
 		setAlgorithm(algorithms[index]);
+
+        setViewerTab('array');
 	}
 
 	const handleSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,11 +57,17 @@ function App() {
 
     const handleReplayClick = () => {
         reset();
+        setViewerTab('array');
     }
 
 	return (
 		<div className="App">
-			<ArrayViewer state={state} />
+            <div className="viewer-tabs">
+                <button className={viewerTab === 'array' ? 'active' : ''} onClick={() => setViewerTab('array')}>Array View</button>
+                <button className={viewerTab === 'history' ? 'active' : ''} onClick={() => setViewerTab('history')}>History View</button>
+            </div>
+			{viewerTab === 'array' && <ArrayViewer state={state} />}
+			{viewerTab === 'history' && <HistoryViewer history={stateHistory} />}
 			<form>
                 <div className="card">
                     <div>

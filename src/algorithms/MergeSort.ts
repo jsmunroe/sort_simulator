@@ -1,7 +1,7 @@
 import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 import MergeSet from "../models/MergeSet";
-import { compare } from "../utils/arrays";
+import { areEqual } from "../utils/arrays";
 
 type MergeSortState = SortState & {
     array: number[];
@@ -40,7 +40,7 @@ export default class MergeSort implements ISortAlgorithm {
         
         mergeSet.merge();
 
-        if (compare(mergeTree.array, array)) {
+        if (areEqual(mergeTree.array, array)) {
             return this.step({...state, mergeTree});
         }
 

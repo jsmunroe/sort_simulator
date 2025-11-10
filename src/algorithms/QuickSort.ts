@@ -1,7 +1,7 @@
 import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 import QuickSet from "../models/QuickSet";
-import { compare } from "../utils/arrays";
+import { areEqual } from "../utils/arrays";
 
 type QuickSortState = SortState & {
     array: number[];
@@ -34,7 +34,7 @@ export default class QuickSort implements ISortAlgorithm {
                 break;
             }
 
-        } while (compare(quickSet.array, array));
+        } while (areEqual(quickSet.array, array));
 
         array = [...quickSet.array];
 

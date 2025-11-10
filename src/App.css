@@ -1,5 +1,4 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -7,12 +6,47 @@
 
 .App {
   display: grid;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 1fr 300px;
   gap: 2rem;
 }
 
 label {
   margin-right: 1em
+}
+
+.viewer-tabs {
+  grid-column: span 2;
+  display: flex;
+  gap: 0.5em;
+  border-bottom: 1px solid hsl(211, 78%, 60%);
+} 
+
+.viewer-tabs button {
+  padding: 0.5em 1em;
+  border: 1px solid hsl(211, 78%, 60%);
+  background-color: transparent;
+}
+
+.viewer-tabs button, 
+.viewer-tabs button:focus {
+  border-radius: 4px;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+  border-bottom: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.viewer-tabs button.active {
+  background-color: hsl(211, 78%, 60%);
+  color: white;
+  font-weight: bold;
+}
+
+.canvas-container {
+  height: 500px;
+  overflow-y: auto;
 }
 
 form > div,
@@ -38,14 +72,23 @@ form .card > div:last-child {
 }
 
 .bar {
-  background-color: #242424;
+  background-color: #f9f9f9;
+}
+
+.node {
+  background-color: #f9f9f9;
 }
 
 @media (prefers-color-scheme: light) {
   .card {
     border-color: hsl(211, 78%, 60%);
   }
+
   .bar {
-    background-color: #f9f9f9;
+    background-color: #242424;
+  }
+
+  .node {
+    background-color: #242424;
   }
 }

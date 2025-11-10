@@ -1,6 +1,6 @@
 import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
-import { compare, swap } from "../utils/arrays";
+import { areEqual, swap } from "../utils/arrays";
 
 type HeapSortState = SortState & {
     array: number[];
@@ -111,7 +111,7 @@ export default class HeapSort implements ISortAlgorithm {
         do {
             newState = this.doStep(newState);
 
-        } while (compare(newState.array, state.array) && !newState.isComplete);
+        } while (areEqual(newState.array, state.array) && !newState.isComplete);
 
         return newState;
     }

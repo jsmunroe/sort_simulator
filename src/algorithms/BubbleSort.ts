@@ -29,35 +29,31 @@ export default class BubbleSort implements ISortAlgorithm {
             return state;
         }
 
-        if (currentIndex >= array.length - 1) {
-            if (!hasChanged) {
-                isComplete = true;
+        for (currentIndex; currentIndex < array.length; currentIndex++) {
+            if (currentIndex >= array.length - 1) {
+                if (!hasChanged) {
+                    isComplete = true;
 
-                return {...state, isComplete};
+                    return {...state, isComplete};
+                }
+
+                currentIndex = 0;
+                hasChanged = false;
+                break;
             }
 
-            currentIndex = 0;
-            hasChanged = false;
-        }
+            if (array[currentIndex] > array[currentIndex + 1]) {
+                const current = array[currentIndex];
+                const next = array[currentIndex + 1];
 
-        if (array[currentIndex] > array[currentIndex + 1]) {
-            const current = array[currentIndex];
-            const next = array[currentIndex + 1];
+                if (current > next) {
+                    array = swap(array, currentIndex, currentIndex + 1);
+                }
 
-            if (current > next) {
-                array = swap(array, currentIndex, currentIndex + 1);
+                hasChanged = true;
+                break;
             }
-
-            hasChanged = true;
         }
-        else {
-            // Nothing has changed in this step, so increment and step again.
-
-            currentIndex++;
-
-            return this.step({...state, array, currentIndex, hasChanged, isComplete});
-
-        }   
 
         currentIndex++;
 
