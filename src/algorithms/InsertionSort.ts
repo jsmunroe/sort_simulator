@@ -1,5 +1,6 @@
 import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
+import { shift } from "../utils/arrays";
 
 type InsertionSortState = SortState & {
     array: number[];
@@ -34,13 +35,7 @@ export default class InsertionSort implements ISortAlgorithm {
         }
 
         if (currentIndex > i + 1) {
-            array = array.map((item, index) => {
-                if (index === i + 1) return current;
-
-                if (index > i + 1 && index <= currentIndex) return array[index - 1];
-
-                    return item;
-                });
+            array = shift(array, currentIndex, i + 1);
         }
                             
         if (currentIndex < array.length - 1) {

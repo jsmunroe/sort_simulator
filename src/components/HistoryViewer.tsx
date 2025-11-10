@@ -28,13 +28,13 @@ export default function HistoryViewer({ history }: HistoryViewerProps) {
 
             ctx.fillStyle = nodeStyles.backgroundColor ?? (isDarkMode ? '#ffffff' : '#000000');;
 
-            const nodeWidth = ctx.canvas.width / array.length;
+            const nodeWidth = Math.min(30, ctx.canvas.width / array.length);
 
             ctx.beginPath();
             for (let j = 0; j < array.length; j++) {
                 ctx.ellipse(
                     j * nodeWidth + nodeWidth / 2,
-                    i * rowHeight + rowHeight / 2, nodeWidth * 0.2, nodeWidth * 0.2, 0, 0, Math.PI * 2);
+                    i * rowHeight + rowHeight / 2, 2, 2, 0, 0, Math.PI * 2);
             }
             ctx.fill();
 
@@ -49,10 +49,10 @@ export default function HistoryViewer({ history }: HistoryViewerProps) {
                 ctx.beginPath();
                 ctx.moveTo(
                     shift.fromIndex * nodeWidth + nodeWidth / 2,
-                    (i - 1) * rowHeight + rowHeight / 2 + 2);
+                    (i - 1) * rowHeight + rowHeight / 2 + 3);
                 ctx.lineTo(
                     shift.toIndex * nodeWidth + nodeWidth / 2,
-                    i * rowHeight + rowHeight / 2 - 2);
+                    i * rowHeight + rowHeight / 2 - 3);
                 ctx.strokeStyle = 'green';
                 ctx.lineWidth = 2;
                 ctx.stroke();

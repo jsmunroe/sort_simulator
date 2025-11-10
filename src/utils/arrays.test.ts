@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { swap } from './arrays';
+import { shift, swap } from './arrays';
 
 describe('swap', () => {
     it('swaps two elements in an array', () => {
@@ -74,3 +74,40 @@ describe('swap', () => {
     });
 
 });
+
+describe('shift', () => {
+    it('shifts an element to the right', () => {
+        // Setup
+        const array = [1, 2, 3, 4, 5];
+        // Execute
+        const result = shift(array, 1, 3);
+        // Assert
+        expect(result).toEqual([1, 3, 4, 2, 5]);
+    });   
+    
+    it('shifts an element to the left', () => {
+        // Setup
+        const array = [1, 2, 3, 4, 5];
+        // Execute
+        const result = shift(array, 3, 1);
+        // Assert
+        expect(result).toEqual([1, 4, 2, 3, 5]);
+    });
+
+    it('returns the same array if indices are the same', () => {
+        // Setup
+        const array = [1, 2, 3, 4, 5];
+        // Execute
+        const result = shift(array, 2, 2);
+        // Assert
+        expect(result).toBe(array);
+    });
+
+    it('throws error for out-of-bounds indices', () => {
+        // Setup
+        const array = [1, 2, 3];
+        // Assert
+        expect(() => shift(array, -1, 2)).toThrowError("shift: Indices are out of bounds.");
+        expect(() => shift(array, 1, 3)).toThrowError("shift: Indices are out of bounds.");
+    });
+})

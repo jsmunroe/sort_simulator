@@ -23,6 +23,38 @@ export function swap<TItem>(array: TItem[], indexA: number, indexB: number): TIt
     return newArray;
 }
 
+export function shift<TItem>(array: TItem[], indexA: number, indexB: number): TItem[] {
+    if (indexA === indexB) {
+        return array;
+    }
+
+    if (indexA < 0 || indexA >= array.length ||
+        indexB < 0 || indexB >= array.length) {
+        throw new Error("shift: Indices are out of bounds.");
+    }
+
+    let newArray: TItem[] = [];
+
+    if (indexA < indexB) {
+        newArray = [
+            ...array.slice(0, indexA),
+            ...array.slice(indexA + 1, indexB + 1),
+            array[indexA],
+            ...array.slice(indexB + 1)
+        ];
+    }
+    else {
+        newArray = [
+            ...array.slice(0, indexB),
+            array[indexA],
+            ...array.slice(indexB, indexA),
+            ...array.slice(indexA + 1)
+        ];
+    }
+
+    return newArray;
+}
+
 export function swapInPlace<TItem>(array: TItem[], indexA: number, indexB: number): void {
     if (indexA === indexB) {
         return;
