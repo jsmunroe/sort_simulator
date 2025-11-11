@@ -48,6 +48,14 @@ function drawView(ctx: CanvasRenderingContext2D, state: SortState) {
         drawArray(ctx, state.counts, -1, 100);
     }
 
+    if ('buckets' in state && Array.isArray(state.buckets) && state.buckets.every(n => Array.isArray(n))) {
+        const bucketStyles = getStylesForClass('buckets');
+        ctx.fillStyle = bucketStyles.backgroundColor ?? (isDarkMode ? '#888888' : '#444444');
+        const flattenedBuckets = (state.buckets as number[][]).flat();
+        flattenedBuckets.unshift(...Array(array.length - flattenedBuckets.length).fill(0));
+        drawArray(ctx, flattenedBuckets, -1);
+    }
+
     if ('step' in state && typeof state.step === 'string' && state.step) {
         const step = state.step;
 

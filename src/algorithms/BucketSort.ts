@@ -3,10 +3,14 @@ import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 
 type BucketSortState = SortState & {
     name: 'BucketSortState';
+    originalArray: number[];
     array: number[];
     isComplete: boolean;
-    
-    currentIndex: number;
+
+    a: number;
+    b: number;
+
+    buckets: number[][];
 }
 
 export default class BucketSort implements ISortAlgorithm {
@@ -15,45 +19,53 @@ export default class BucketSort implements ISortAlgorithm {
     createState(array: number[]): BucketSortState {
         return {
             name: 'BucketSortState',
+            originalArray: [...array],
             array: [...array],
-            currentIndex: 0,
             isComplete: false,
+            a: 0,
+            b: 0,
+            buckets: [],
         }
     }
 
     step(state: BucketSortState): BucketSortState {
-        let { array, currentIndex, isComplete } = state;
+        let { originalArray, array, isComplete, buckets, a, b } = state;
 
         if (isComplete) {
             return state;
         }
-        
-        array = this.bucketSort(array);
-        isComplete = true;
 
-        return {...state, array, currentIndex, isComplete};
+        if (!buckets.length) {
+            buckets = Array(originalArray.length).fill([]) as number[][];
+        }
+
+        const maximum = Math.max(...originalArray);
+        
+        if (a < originalArray.length) {
+            const value = originalArray[a];
+            const index = Math.floor(value * originalArray.length / (maximum + 1));
+            buckets[index] ??= [];
+            buckets[index] = [...buckets[index], value];
+            array[a] = 0;
+            a++;
+        }
+
+        if (a >= originalArray.length && b < buckets.length) {
+            buckets[b] = buckets[b]?.sort((a, b) => a - b) ?? [];
+
+            b++;
+        }
+
+        if (b >= buckets.length) {
+            isComplete = true;
+            array = buckets.flat();
+            buckets = [];
+        }
+
+        return {...state, originalArray, array, isComplete, buckets, a, b};
     }
 
     isValidState(state: SortState): state is BucketSortState {
         return state.name === 'BucketSortState';
-    }
-
-    private bucketSort(array: number[]): number[] {
-        const buckets = Array(array.length).fill([]) as number[][];
-
-        const maximum = array.length > 0 ? Math.max(...array) : 0;
-        
-        for (let value of array) {
-            const index = Math.floor(value * array.length / (maximum + 1));
-            buckets[index] = [...buckets[index], value];
-        }
-
-        for (let i = 0; i < buckets.length; i++) {
-            buckets[i] = buckets[i].sort((a, b) => a - b);
-        }
-
-        array = buckets.flat();
-
-        return array;
     }
 }

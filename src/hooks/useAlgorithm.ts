@@ -18,7 +18,7 @@ export default function useAlgorithm(algorithm: ISortAlgorithm, gen: IGenerator)
         stateHistory.clear();
         stateHistory.push(newState);
         stateHistory.next();
-    }, [algorithm])
+    }, [algorithm, generator])
 
     useEffect(() => {
         if (stateHistory.current) {

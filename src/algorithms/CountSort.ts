@@ -25,7 +25,7 @@ export default class CountSort implements ISortAlgorithm {
             step: 'counting',
             a: 0,
             b: 1,
-            c: array.length - 1,
+            c: array.length,
             isComplete: false,
         }
     }

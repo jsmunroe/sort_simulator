@@ -92,6 +92,10 @@ form .card > div:last-child {
   background-color: #00b300;
 }
 
+.buckets {
+  background-color: #00b300;
+}
+
 .node {
   background-color: #f9f9f9;
 }
@@ -119,6 +123,10 @@ form .card > div:last-child {
   }
 
   .accumulations-bar {
+    background-color: #006600;
+  }
+
+  .buckets {
     background-color: #006600;
   }
 
