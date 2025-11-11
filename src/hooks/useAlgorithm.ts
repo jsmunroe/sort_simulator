@@ -27,6 +27,11 @@ export default function useAlgorithm(algorithm: ISortAlgorithm, gen: IGenerator)
     }, [stateHistory.currentIndex]);
 
     const doStep = (state: SortState) => {
+        if (!algorithm.isValidState(state)) {
+            console.error("Invalid state passed to algorithm step.");
+            return state;
+        }
+
         const newState = algorithm.step(state);
 
         stateHistory.push(newState);

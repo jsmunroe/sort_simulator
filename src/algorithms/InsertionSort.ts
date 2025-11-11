@@ -3,6 +3,7 @@ import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 import { shift } from "../utils/arrays";
 
 type InsertionSortState = SortState & {
+    name: 'InsertionSortState';
     array: number[];
     isComplete: boolean;
     
@@ -14,6 +15,7 @@ export default class InsertionSort implements ISortAlgorithm {
     
     createState(array: number[]): InsertionSortState {
         return {
+            name: 'InsertionSortState',
             array: [...array],
             currentIndex: 0,
             isComplete: false,
@@ -46,5 +48,9 @@ export default class InsertionSort implements ISortAlgorithm {
         }
 
         return {...state, array, currentIndex, isComplete};
+    }
+
+    isValidState(state: SortState): state is InsertionSortState {
+        return state.name === 'InsertionSortState';
     }
 }

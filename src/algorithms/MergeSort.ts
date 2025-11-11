@@ -4,6 +4,7 @@ import MergeSet from "../models/MergeSet";
 import { areEqual } from "../utils/arrays";
 
 type MergeSortState = SortState & {
+    name: 'MergeSortState';
     array: number[];
     isComplete: boolean;
     
@@ -17,6 +18,7 @@ export default class MergeSort implements ISortAlgorithm {
         const mergeTree = new MergeSet(array, 0, array.length);
 
         return {
+            name: 'MergeSortState',
             array: [...array],
             isComplete: false,
 
@@ -47,6 +49,10 @@ export default class MergeSort implements ISortAlgorithm {
         array = [...mergeTree.array];
 
         return {...state, array, isComplete, mergeTree};
+    }
+
+    isValidState(state: SortState): state is MergeSortState {
+        return state.name === 'MergeSortState';
     }
 
     private findNextMergeSet(node: MergeSet): MergeSet | null {

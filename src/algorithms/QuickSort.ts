@@ -4,6 +4,7 @@ import QuickSet from "../models/QuickSet";
 import { areEqual } from "../utils/arrays";
 
 type QuickSortState = SortState & {
+    name: 'QuickSortState';
     array: number[];
     isComplete: boolean;
 
@@ -15,6 +16,7 @@ export default class QuickSort implements ISortAlgorithm {
     
     createState(array: number[]): QuickSortState {
         return {
+            name: 'QuickSortState',
             array: [...array],
             isComplete: false,
             quickSet: new QuickSet(array, 0, array.length - 1),
@@ -39,5 +41,9 @@ export default class QuickSort implements ISortAlgorithm {
         array = [...quickSet.array];
 
         return {...state, array, isComplete, quickSet};
+    }
+
+    isValidState(state: SortState): state is QuickSortState {
+        return state.name === 'QuickSortState';
     }
 }

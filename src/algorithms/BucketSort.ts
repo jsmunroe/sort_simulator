@@ -2,6 +2,7 @@ import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 
 type BucketSortState = SortState & {
+    name: 'BucketSortState';
     array: number[];
     isComplete: boolean;
     
@@ -13,6 +14,7 @@ export default class BucketSort implements ISortAlgorithm {
 
     createState(array: number[]): BucketSortState {
         return {
+            name: 'BucketSortState',
             array: [...array],
             currentIndex: 0,
             isComplete: false,
@@ -30,6 +32,10 @@ export default class BucketSort implements ISortAlgorithm {
         isComplete = true;
 
         return {...state, array, currentIndex, isComplete};
+    }
+
+    isValidState(state: SortState): state is BucketSortState {
+        return state.name === 'BucketSortState';
     }
 
     private bucketSort(array: number[]): number[] {

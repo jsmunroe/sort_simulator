@@ -3,6 +3,7 @@ import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 import { areEqual, swap } from "../utils/arrays";
 
 type HeapSortState = SortState & {
+    name: 'HeapSortState';
     array: number[];
 
     currentIndex: number;
@@ -14,7 +15,7 @@ type HeapSortState = SortState & {
 
     heapSize: number;
     rootIndex: number;
-    
+
 
 }
 
@@ -23,6 +24,7 @@ export default class HeapSort implements ISortAlgorithm {
 
     createState(array: number[]): HeapSortState {
         return {
+            name: 'HeapSortState',
             array: [...array],
             currentIndex: array.length - 1,
             step: 'initializing',
@@ -114,5 +116,9 @@ export default class HeapSort implements ISortAlgorithm {
         } while (areEqual(newState.array, state.array) && !newState.isComplete);
 
         return newState;
+    }
+
+    isValidState(state: SortState): state is HeapSortState {
+        return state.name === 'HeapSortState';
     }
 }

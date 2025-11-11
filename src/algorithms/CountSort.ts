@@ -2,6 +2,7 @@ import type { SortState } from "../contracts/ISortAlgorithm";
 import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 
 type CountSortState = SortState & {
+    name: 'CountSortState';
     array: number[];
     isComplete: boolean;
 }
@@ -11,6 +12,7 @@ export default class CountSort implements ISortAlgorithm {
 
     createState(array: number[]): CountSortState {
         return {
+            name: 'CountSortState',
             array: [...array],
             isComplete: false,
         }
@@ -27,6 +29,10 @@ export default class CountSort implements ISortAlgorithm {
         isComplete = true;
         
         return {...state, array, isComplete};
+    }
+
+    isValidState(state: SortState): state is CountSortState {
+        return state.name === 'CountSortState';
     }
 
     private countSort(array: number[]): number[] {

@@ -3,6 +3,7 @@ import type ISortAlgorithm from "../contracts/ISortAlgorithm";
 import { swap } from "../utils/arrays";
 
 type BubbleSortState = SortState & {
+    name: 'BubbleSortState';
     array: number[];
     isComplete: boolean;
     
@@ -15,6 +16,7 @@ export default class BubbleSort implements ISortAlgorithm {
 
     createState(array: number[]): BubbleSortState {
         return {
+            name: 'BubbleSortState',
             array: [...array],
             currentIndex: 0,
             hasChanged: false,
@@ -56,5 +58,9 @@ export default class BubbleSort implements ISortAlgorithm {
         }
 
         return {...state, array, currentIndex, hasChanged, isComplete};
+    }
+
+    isValidState(state: SortState): state is BubbleSortState {
+        return state.name === 'BubbleSortState';
     }
 }
