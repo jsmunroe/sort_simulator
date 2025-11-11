@@ -29,21 +29,21 @@ export default class InsertionSort implements ISortAlgorithm {
             return state;
         }
 
-        const current = array[currentIndex];
+        for (; currentIndex < array.length; currentIndex++) {
+            const current = array[currentIndex];
 
-        let i: number;
-        for (i = currentIndex - 1; i >= 0 && array[i] > current; i--) {
-            ;
-        }
-
-        if (currentIndex > i + 1) {
-            array = shift(array, currentIndex, i + 1);
-        }
-                            
-        if (currentIndex < array.length - 1) {
-                currentIndex++;
+            let i: number;
+            for (i = currentIndex - 1; i >= 0 && array[i] > current; i--) {
+                ;
             }
-        else {
+
+            if (currentIndex > i + 1) {
+                array = shift(array, currentIndex, i + 1);
+                break;
+            }
+        }
+                    
+        if (currentIndex >= array.length - 1) {
             isComplete = true;
         }
 

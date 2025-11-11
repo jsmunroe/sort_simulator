@@ -41,7 +41,6 @@ export default class BubbleSort implements ISortAlgorithm {
 
                 currentIndex = -1;
                 hasChanged = false;
-                break;
             }
 
             if (array[currentIndex] > array[currentIndex + 1]) {
