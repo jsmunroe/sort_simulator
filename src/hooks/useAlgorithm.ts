@@ -47,7 +47,7 @@ export default function useAlgorithm(algorithm: ISortAlgorithm, gen: IGenerator)
         if (!newState.isComplete && state !== newState && stateJson === newStateJson) {
             const error = new Error("Algorithm step did not change state.");
             console.error(error);
-            algorithm.step(state); // For debugging purposes
+            //algorithm.step(state); // For debugging purposes
             throw error;
         }
 
@@ -57,7 +57,7 @@ export default function useAlgorithm(algorithm: ISortAlgorithm, gen: IGenerator)
         if (stateArrayJson === newStateArrayJson) {
             const error = new Error("Algorithm step did not change array.");
             console.error(error);
-            algorithm.step(state); // For debugging purposes
+            //algorithm.step(state); // For debugging purposes
         }
 
         return newState;

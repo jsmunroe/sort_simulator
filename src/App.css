@@ -71,8 +71,25 @@ form .card > div:last-child {
   justify-content: end;
 }
 
+.step {
+  color: #f9f9f9;
+  background-color: hsla(0, 0%, 14%, 0.5);
+}
+
+.array-viewer {
+  background-color: #242424;
+}
+
 .bar {
   background-color: #f9f9f9;
+}
+
+.counts-bar {
+  background-color: #e7e300;
+}
+
+.accumulations-bar {
+  background-color: #00b300;
 }
 
 .node {
@@ -84,8 +101,25 @@ form .card > div:last-child {
     border-color: hsl(211, 78%, 60%);
   }
 
+  .array-viewer {
+    background-color: #242424;
+  }
+
+  .step {
+    color: hsl(0, 0%, 14%);
+    background-color: hsla(0, 0%, 98%, 0.5);
+  }
+
   .bar {
     background-color: #242424;
+  }
+
+  .counts-bar {
+    background-color: #686600;
+  }
+
+  .accumulations-bar {
+    background-color: #006600;
   }
 
   .node {

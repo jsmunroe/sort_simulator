@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Algorithms from './algorithms/Algorithms';
 import ArrayViewer from './components/ArrayViewer';
 import { useAlgorithm } from './hooks';
-import { random } from './utils/generators';
+import { consecutive, createGenerator, type GeneratorType } from './utils/generators';
 import type ISortAlgorithm from './contracts/ISortAlgorithm';
 import HistoryViewer from './components/HistoryViewer';
 import './App.css'
@@ -10,8 +10,10 @@ import './App.css'
 function App() {
 	const [algorithms] = useState(Algorithms.all());
 	const [algorithm, setAlgorithm] = useState<ISortAlgorithm>(Algorithms.BubbleSort);
-	const { state, next, previous, reset, setGenerator, stateHistory } =  useAlgorithm(algorithm, random(100));
+	const {state, next, previous, reset, setGenerator, stateHistory } =  useAlgorithm(algorithm, consecutive(100));
 
+    const [generatorType, setGeneratorType] = useState<GeneratorType>('consecutive');
+    const [elements, setElements] = useState(100);
 	const [speed, setSpeed] = useState(99.5); // 99.5 gives a delay of 10ms between frames.
 
     const [viewerTab, setViewerTab] = useState<'array' | 'history'>('array');
@@ -26,12 +28,22 @@ function App() {
 		setTimeout(() => next(), delay);
 	}, [state, algorithm]);
 
+    useEffect(() => {
+        const generator = createGenerator(generatorType, elements);
+        setGenerator(() => generator);
+        reset();
+    }, [generatorType, elements]);
+
+
+    const handleGeneratorTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const generatorType = event.target.value;
+        setGeneratorType(generatorType as GeneratorType);
+    }
+
 	const handleAlgorithmChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const index = parseInt(event.target.value, 10);
 
 		setAlgorithm(algorithms[index]);
-
-        setViewerTab('array');
 	}
 
 	const handleSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,8 +57,7 @@ function App() {
 
 	const handleElementsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const newElements = parseInt(event.target.value, 10);
-		
-        setGenerator(() => random(newElements));
+        setElements(newElements);
 	}
 
     const handleElementsBlur = () => {
@@ -77,8 +88,15 @@ function App() {
             </div>
 			{viewerTab === 'array' && <ArrayViewer state={state} />}
 			{viewerTab === 'history' && <HistoryViewer history={stateHistory} />}
-			<form>
+			<form onSubmit={e => e.preventDefault()}>
                 <div className="card">
+                    <div>
+                        <label htmlFor="generatorType">GeneratorType</label>
+                        <select id="generatorType" name="generatorType" onChange={handleGeneratorTypeChange}>
+                            <option value="consecutive">Consecutive</option>
+                            <option value="random">Random</option>
+                        </select>
+                    </div>
                     <div>
                         <label htmlFor="algorithm">Algorithm</label>
                         <select id="algorithm" name="algorithm" onChange={handleAlgorithmChange} value={algorithms.findIndex(a => a.name === algorithm.name)}>
@@ -114,4 +132,4 @@ function App() {
 	)
 }
 
-export default App
+export default App;
